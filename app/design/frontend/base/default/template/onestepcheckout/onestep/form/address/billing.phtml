@@ -24,7 +24,7 @@
                     <?php if ($_tipopessoa->isEnabled()): ?>
                         <!--<li class="control tipopessoa">-->
                         <li class="control">
-                        <input type="radio" name="billing[radio_tipopessoa]" value="Física" id="billing:fisica" class="radio" title="CPF" <?php if ($this->getDataFromSession('radio_tipopessoa') == 'Física'): ?> checked="checked"<?php endif; ?>/><label for="billing:fisica"><?php echo $this->__('Pessoa Física') ?></label>
+                            <input type="radio" name="billing[radio_tipopessoa]" value="Física" id="billing:fisica" class="radio" title="CPF" <?php if ($this->getDataFromSession('radio_tipopessoa') == 'Física'): ?> checked="checked"<?php endif; ?>/><label for="billing:fisica"><?php echo $this->__('Pessoa Física') ?></label>
                             <input type="radio" name="billing[radio_tipopessoa]" value="Jurídica" id="billing:juridica" class="radio" title="CNPJ" <?php if ($this->getDataFromSession('radio_tipopessoa') == 'Jurídica'): ?> checked="checked"<?php endif; ?>/><label for="billing:juridica"><?php echo $this->__('Pessoa Jurídica') ?></label>
                         </li>
                         <li class="wide hidden">
@@ -74,12 +74,12 @@
                                 <?php echo $this->getTaxvatHtml() ?>
                             </li>
                         <?php endif; ?>
-                        <!--<?php $_ie = $this->getLayout()->createBlock('onestepcheckout/widget_ie') ?>
-                        <?php if ($_ie->isEnabled()): ?>
+                        <!-- <?php //$_ie = $this->getLayout()->createBlock('onestepcheckout/widget_ie') ?>
+                        <?php //if ($_ie->isEnabled()): ?>
                             <li class="wide">
-                                <?php echo $_ie->setIe($this->getQuote()->getCustomerIe())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+                                <?php //echo $_ie->setIe($this->getQuote()->getCustomerIe())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
                             </li>
-                        <?php endif ?>-->
+                        <?php //endif ?> -->
                         <li>
                             <ul id="osc-billing-tipopessoa-area"  style="overflow: hidden;display:block;">
                                 <li class="wide">
@@ -92,7 +92,7 @@
                                     <?php $_genderWidget = $this->getCustomerWidgetGender(); ?>
                                     <?php if ($_genderWidget->isEnabled()): ?>
                                         <?php echo $_genderWidget->toHtml() ?>
-                                    <?php endif ?>                                    
+                                    <?php endif ?>
                                 </li>
                             </ul>
                         </li>
@@ -116,7 +116,7 @@
                             <input type="tel" name="billing[telephone]" title="<?php echo $this->__('Telephone') ?>" class="input-text <?php echo $this->getAttributeValidationClass('telephone') ?>" id="billing:telephone" value="<?php echo $this->getDataFromSession('telephone'); ?>" placeholder="" />
                         </div>
                     </div>
-                     <?php if ($this->getConfig()->isFax()): ?>
+                    <?php if ($this->getConfig()->isFax()): ?>
                         <div class="field">
                             <label for="billing:fax"><?php echo $this->__('Fax') ?></label>
                             <div class="input-box">
@@ -134,7 +134,7 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label>&nbsp;</label>        
+                        <label>&nbsp;</label>
                         <div class="input-box">
                             <div class="onestepcheckout-postcod-process onestepcheckout-overlay-16">&nbsp;</div>
                             <a class="nao-sei-cep" href="#" onclick="popWin('http://m.correios.com.br/movel/buscaCep.do', 'I forgot my zipcode', 'width=360,height=370,left=200,top=50,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><?php echo $this->__('What is my postcode?') ?></a>
@@ -202,7 +202,7 @@
                     <li class="no-display"><input type="hidden" name="billing[save_in_address_book]" value="1" /></li>
                 <?php endif; ?>
             </ul>
-        </li>    
+        </li>
         <?php if (!$this->isUseBillingAsShipping() && $this->canShip()): ?>
             <?php if(Mage::getStoreConfig('onestepcheckout/general/is_show_titles')): ?><li class="osc-title"><?php echo $this->__('Shipping Address') ?></li><?php endif; ?>
             <li class="control">
@@ -218,47 +218,47 @@
     //<![CDATA[
     var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'billing:postcode');
     <?php if (!$this->isCustomerLoggedIn()) : ?>
-        $$("input[name*='radio_tipopessoa']").invoke('on', 'click', function() {
-            var sel = $('billing:tipopessoa');
-            setTipopessoaArea(this.value);
-            for (var i = 0; i < sel.options.length; i++) {
-                if (sel.options[i].text == this.value) {
-                    sel.options[i].selected = true;
-                }
-            }
-
-        });
-        function setTipopessoaArea(arg){
-
-            if (arg == 'Jurídica') {
-                if ($('billing:taxvat')) {
-                    $('billing:taxvat').maxLength = 18;
-                    //$('billing:ie').maxLength = 30;
-                    //$$('label[for="billing:ie"]').first().update('<em>*</em>IE (Inscrição Estadual)');
-                    $$('label[for="billing:taxvat"]').first().update('<em>*</em>CNPJ');
-                    $$('label[for="billing:firstname"]').first().update('<em>*</em>Razão social');
-                    $$('label[for="billing:lastname"]').first().update('<em>*</em>N. Fantasia');
-                    $('osc-billing-tipopessoa-area').hide();
-                }
-            } else {
-                if ($('billing:taxvat')) {
-                    $('billing:taxvat').maxLength = 14;
-                    //$('billing:ie').maxLength = 30;
-                    $$('label[for="billing:taxvat"]').first().update('<em>*</em>CPF');
-                    //$$('label[for="billing:ie"]').first().update('<em>*</em>RG');
-                    $$('label[for="billing:firstname"]').first().update('<em>*</em>Nome');
-                    $$('label[for="billing:lastname"]').first().update('<em>*</em>Sobrenome');
-                    $('osc-billing-tipopessoa-area').show();
-                }
+    $$("input[name*='radio_tipopessoa']").invoke('on', 'click', function() {
+        var sel = $('billing:tipopessoa');
+        setTipopessoaArea(this.value);
+        for (var i = 0; i < sel.options.length; i++) {
+            if (sel.options[i].text == this.value) {
+                sel.options[i].selected = true;
             }
         }
-        <?php if (is_null($this->getDataFromSession('radio_tipopessoa'))): ?>
-            $$('[name*=billing[radio_tipopessoa]]')[0].click();
-        <?php else: ?>
-            if ($('billing:tipopessoa')) {
-                setTipopessoaArea('<?php echo $this->getDataFromSession('radio_tipopessoa') ?>');
+
+    });
+    function setTipopessoaArea(arg){
+
+        if (arg == 'Jurídica') {
+            if ($('billing:taxvat')) {
+                $('billing:taxvat').maxLength = 18;
+                //$('billing:ie').maxLength = 30;
+                //$$('label[for="billing:ie"]').first().update('<em>*</em>IE (Inscrição Estadual)');
+                $$('label[for="billing:taxvat"]').first().update('<em>*</em>CNPJ');
+                $$('label[for="billing:firstname"]').first().update('<em>*</em>Razão social');
+                $$('label[for="billing:lastname"]').first().update('<em>*</em>N. Fantasia');
+                $('osc-billing-tipopessoa-area').hide();
             }
-        <?php endif; ?>
+        } else {
+            if ($('billing:taxvat')) {
+                $('billing:taxvat').maxLength = 14;
+                //$('billing:ie').maxLength = 30;
+                $$('label[for="billing:taxvat"]').first().update('<em>*</em>CPF');
+                //$$('label[for="billing:ie"]').first().update('<em>*</em>RG');
+                $$('label[for="billing:firstname"]').first().update('<em>*</em>Nome');
+                $$('label[for="billing:lastname"]').first().update('<em>*</em>Sobrenome');
+                $('osc-billing-tipopessoa-area').show();
+            }
+        }
+    }
+    <?php if (is_null($this->getDataFromSession('radio_tipopessoa'))): ?>
+    $$('[name*=billing[radio_tipopessoa]]')[0].click();
+    <?php else: ?>
+    if ($('billing:tipopessoa')) {
+        setTipopessoaArea('<?php echo $this->getDataFromSession('radio_tipopessoa') ?>');
+    }
+    <?php endif; ?>
     Validation.add('validate-email-exist', '<?php echo $this->__('Please enter a valid email address. For example johndoe@domain.com.') ?>', function(value) {
         if (checkMail(value)) {
             var ok = false;
@@ -270,19 +270,19 @@
                 onSuccess: function(transport) {
                     var obj = response = eval('(' + transport.responseText + ')');
                     validateTrueEmailMsg = obj.status_desc;
-                        if (obj.result !== 'clean') {
-                            Validation.get('validate-email-exist').error = 'Email já cadastrado';
-                                ok = false;
-                        } else {
-                                ok = true;
-                        }
-                    },
-                    onComplete: function() {
-                        if ($('advice-validate-email-exist-billing:email')) {
-                          $('advice-validate-email-exist-billing:email').remove();
-                        }
+                    if (obj.result !== 'clean') {
+                        Validation.get('validate-email-exist').error = 'Email já cadastrado';
+                        ok = false;
+                    } else {
+                        ok = true;
                     }
-                });
+                },
+                onComplete: function() {
+                    if ($('advice-validate-email-exist-billing:email')) {
+                        $('advice-validate-email-exist-billing:email').remove();
+                    }
+                }
+            });
             return ok;
         }else{
             Validation.get('validate-email').error = '<?php echo $this->__('Please enter a valid email address. For example johndoe@domain.com.') ?>';
@@ -301,9 +301,9 @@
                     validateTrueEmailMsg = obj.status_desc;
                     if (obj.result !== 'clean') {
                         Validation.get('validate-taxvat').error = 'CPF/CNPJ já cadastrado';
-                            ok = false;
+                        ok = false;
                     } else {
-                            ok = true;
+                        ok = true;
                     }
                 },
                 onComplete: function() {
@@ -313,9 +313,9 @@
                 }
             });
             return ok;
-         }else{
-                 Validation.get('validate-taxvat').error = 'O CPF/CNPJ informado \xE9 inválido';
-         }
+        }else{
+            Validation.get('validate-taxvat').error = 'O CPF/CNPJ informado \xE9 inválido';
+        }
     });
     <?php endif; ?>
     Validation.add('validate-zip-br', '<?php echo $this->__('Please enter a valid zip code. e.g. 12345678.') ?>', function(v) {
@@ -324,14 +324,14 @@
     Validation.add('validate-phone-br', '<?php echo $this->__('Please enter a valid phone number. for example, (xx) x4567-8900.') ?>', function(v) {
         return Validation.get('IsEmpty').test(v) || /^(\()?\d{2}(\))?(-|\s)?\d{5}(-|\s)\d{4}|(\()?\d{2}(\))?(-|\s)?\d{4}(-|\s)\d{4}$/.test(v);
     });
-    
+
     if ($('billing:taxvat')) {
         $('billing:taxvat').addClassName('validate-taxvat');
         $('billing:taxvat').observe('keyup', function(event) {
             mascara(this, mdocumento);
         });
     }
-    
+
     if ($('billing:telephone')) {
         $('billing:telephone').addClassName('validate-phone-br');
         $('billing:telephone').observe('keyup', function(event) {
