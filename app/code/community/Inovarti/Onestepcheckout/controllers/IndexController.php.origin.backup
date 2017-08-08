@@ -31,6 +31,14 @@ class Inovarti_Onestepcheckout_IndexController extends Mage_Checkout_Controller_
     }
 
     public function indexAction() {
+        if (Mage::getStoreConfig('onestepcheckout/general/is_authenticate_before')) {
+            if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+                $url = Mage::getUrl('onestepcheckout/index/', array('_secure' => true));
+
+                $this->_redirect('customer/account/login',array(Mage_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME => Mage::helper('core')->urlEncode($url)));
+            }
+        }
+
         if (!Mage::helper('onestepcheckout/config')->isEnabled()) {
             Mage::getSingleton('checkout/session')->addError($this->__('The onestep checkout is disabled.'));
             $this->_redirect('checkout/cart');
@@ -47,21 +55,6 @@ class Inovarti_Onestepcheckout_IndexController extends Mage_Checkout_Controller_
             $this->_redirect('checkout/cart');
             return;
         }
-
-        if (Mage::getStoreConfig('onestepcheckout/general/is_authenticate_before')) {
-            if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
-                $url = Mage::getUrl('onestepcheckout/index/', array('_secure' => true));
-                $this->_redirect('customer/account/login',array(Mage_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME => Mage::helper('core')->urlEncode($url)));
-                
-            }else{
-                $this->initOSC();
-            }
-        }else{
-            $this->initOSC();
-        }
-    }
-
-    protected function initOSC(){
         Mage::getSingleton('checkout/session')->setCartWasUpdated(false);
         $this->getOnepage()->initCheckout();
         Mage::helper('onestepcheckout/address')->initAddress();
