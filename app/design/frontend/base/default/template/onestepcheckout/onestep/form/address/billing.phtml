@@ -22,8 +22,9 @@
                 <?php if (!$this->isCustomerLoggedIn()) : ?>
                     <?php $_tipopessoa = $this->getLayout()->createBlock('onestepcheckout/widget_tipopessoa') ?>
                     <?php if ($_tipopessoa->isEnabled()): ?>
-                        <li class="control tipopessoa">
-                            <input type="radio" name="billing[radio_tipopessoa]" value="Física" id="billing:fisica" class="radio" title="CPF" <?php if ($this->getDataFromSession('radio_tipopessoa') == 'Física'): ?> checked="checked"<?php endif; ?>/><label for="billing:fisica"><?php echo $this->__('Pessoa Física') ?></label>
+                        <!--<li class="control tipopessoa">-->
+                        <li class="control">
+                        <input type="radio" name="billing[radio_tipopessoa]" value="Física" id="billing:fisica" class="radio" title="CPF" <?php if ($this->getDataFromSession('radio_tipopessoa') == 'Física'): ?> checked="checked"<?php endif; ?>/><label for="billing:fisica"><?php echo $this->__('Pessoa Física') ?></label>
                             <input type="radio" name="billing[radio_tipopessoa]" value="Jurídica" id="billing:juridica" class="radio" title="CNPJ" <?php if ($this->getDataFromSession('radio_tipopessoa') == 'Jurídica'): ?> checked="checked"<?php endif; ?>/><label for="billing:juridica"><?php echo $this->__('Pessoa Jurídica') ?></label>
                         </li>
                         <li class="wide hidden">
@@ -47,12 +48,14 @@
                                     <div class="input-box">
                                         <input type="password" name="billing[customer_password]" id="billing:customer_password" title="<?php echo $this->__('Password') ?>" class="input-text required-entry validate-password" />
                                     </div>
+                                    <small>(Defina uma senha de acesso para sua conta)</small>
                                 </div>
                                 <div class="field">
                                     <label for="billing:confirm_password" class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
                                     <div class="input-box">
                                         <input type="password" name="billing[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="billing:confirm_password" class="input-text required-entry validate-cpassword" />
                                     </div>
+                                    <small>(Digite novamente a senha escolhida)</small>
                                 </div>
                             </li>
                         </ul>
@@ -71,12 +74,12 @@
                                 <?php echo $this->getTaxvatHtml() ?>
                             </li>
                         <?php endif; ?>
-                        <?php $_ie = $this->getLayout()->createBlock('onestepcheckout/widget_ie') ?>
+                        <!--<?php $_ie = $this->getLayout()->createBlock('onestepcheckout/widget_ie') ?>
                         <?php if ($_ie->isEnabled()): ?>
                             <li class="wide">
                                 <?php echo $_ie->setIe($this->getQuote()->getCustomerIe())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
                             </li>
-                        <?php endif ?>
+                        <?php endif ?>-->
                         <li>
                             <ul id="osc-billing-tipopessoa-area"  style="overflow: hidden;display:block;">
                                 <li class="wide">
@@ -110,7 +113,7 @@
                     <div class="field">
                         <label for="billing:telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
                         <div class="input-box">
-                            <input type="text" name="billing[telephone]" title="<?php echo $this->__('Telephone') ?>" class="input-text validate-phone-br <?php echo $this->getAttributeValidationClass('telephone') ?>" id="billing:telephone" value="<?php echo $this->getDataFromSession('telephone'); ?>" placeholder="" />
+                            <input type="tel" name="billing[telephone]" title="<?php echo $this->__('Telephone') ?>" class="input-text <?php echo $this->getAttributeValidationClass('telephone') ?>" id="billing:telephone" value="<?php echo $this->getDataFromSession('telephone'); ?>" placeholder="" />
                         </div>
                     </div>
                      <?php if ($this->getConfig()->isFax()): ?>
@@ -230,8 +233,8 @@
             if (arg == 'Jurídica') {
                 if ($('billing:taxvat')) {
                     $('billing:taxvat').maxLength = 18;
-                    $('billing:ie').maxLength = 30;
-                    $$('label[for="billing:ie"]').first().update('<em>*</em>IE (Inscrição Estadual)');
+                    //$('billing:ie').maxLength = 30;
+                    //$$('label[for="billing:ie"]').first().update('<em>*</em>IE (Inscrição Estadual)');
                     $$('label[for="billing:taxvat"]').first().update('<em>*</em>CNPJ');
                     $$('label[for="billing:firstname"]').first().update('<em>*</em>Razão social');
                     $$('label[for="billing:lastname"]').first().update('<em>*</em>N. Fantasia');
@@ -240,9 +243,9 @@
             } else {
                 if ($('billing:taxvat')) {
                     $('billing:taxvat').maxLength = 14;
-                    $('billing:ie').maxLength = 30;
+                    //$('billing:ie').maxLength = 30;
                     $$('label[for="billing:taxvat"]').first().update('<em>*</em>CPF');
-                    $$('label[for="billing:ie"]').first().update('<em>*</em>RG');
+                    //$$('label[for="billing:ie"]').first().update('<em>*</em>RG');
                     $$('label[for="billing:firstname"]').first().update('<em>*</em>Nome');
                     $$('label[for="billing:lastname"]').first().update('<em>*</em>Sobrenome');
                     $('osc-billing-tipopessoa-area').show();
