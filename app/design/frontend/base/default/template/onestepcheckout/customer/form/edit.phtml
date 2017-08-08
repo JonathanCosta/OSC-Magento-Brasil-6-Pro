@@ -73,12 +73,12 @@
             <?php if ($_taxvat->isEnabled()): ?>
                 <li><?php echo $_taxvat->setTaxvat($this->getCustomer()->getTaxvat())->toHtml() ?></li>
             <?php endif ?>
-            <li class="wide">
+            <!--<li class="wide">
                 <?php $_ie = $this->getLayout()->createBlock('onestepcheckout/widget_ie') ?>
                 <?php if ($_ie->isEnabled()): ?>
                     <?php echo $_ie->setIe($this->getCustomer()->getIe())->toHtml() ?>
                 <?php endif ?>
-            </li>
+            </li>-->
             <li>
                 <ul id="tipopessoa-area"  style="overflow: hidden;display:block;">
                     <li class="fields">
@@ -120,13 +120,13 @@
         if (arg == 'Jurídica') {
             if ($('taxvat')) {
                 $('taxvat').maxLength = 18;
-                $('ie').maxLength = 30;
-                $$('label[for="ie"]').first().update('<em>*</em>IE (Inscrição Estadual)');
+                //$('ie').maxLength = 30;
+                //$$('label[for="ie"]').first().update('<em>*</em>IE (Inscrição Estadual)');
                 $$('label[for="taxvat"]').first().update('<em>*</em>CNPJ');
                 $$('label[for="firstname"]').first().update('<em>*</em>Razão social');
                 $$('label[for="lastname"]').first().update('<em>*</em>N. Fantasia');
                 $$('input[name="taxvat"]').first().writeAttribute('title','CNPJ');
-                $$('input[name="ie"]').first().writeAttribute('title','IE (Inscrição Estadual)');
+                //$$('input[name="ie"]').first().writeAttribute('title','IE (Inscrição Estadual)');
                 $$('input[name="firstname"]').first().writeAttribute('title','Razão social');
                 $$('input[name="lastname"]').first().writeAttribute('title','N. Fantasia');
                 $('tipopessoa-area').hide();
@@ -134,13 +134,13 @@
         } else {
             if ($('taxvat')) {
                 $('taxvat').maxLength = 14;
-                $('ie').maxLength = 30;
+                //$('ie').maxLength = 30;
                 $$('label[for="taxvat"]').first().update('<em>*</em>CPF');
-                $$('label[for="ie"]').first().update('<em>*</em>RG');
+                //$$('label[for="ie"]').first().update('<em>*</em>RG');
                 $$('label[for="firstname"]').first().update('<em>*</em>Nome');
                 $$('label[for="lastname"]').first().update('<em>*</em>Sobrenome');
                 $$('input[name="taxvat"]').first().writeAttribute('title','CPF');
-                $$('input[name="ie"]').first().writeAttribute('title','RG');
+                //$$('input[name="ie"]').first().writeAttribute('title','RG');
                 $$('input[name="firstname"]').first().writeAttribute('title','Nome');
                 $$('input[name="lastname"]').first().writeAttribute('title','Sobrenome');
                 $('tipopessoa-area').show();
