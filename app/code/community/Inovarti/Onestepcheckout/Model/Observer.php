@@ -34,6 +34,15 @@ class Inovarti_Onestepcheckout_Model_Observer {
             $oscOrderData = array();
         }
 
+        if (!empty($oscOrderData['comments'])) {
+
+            $order = $observer->getEvent()->getOrder();
+            /* @var $order Mage_Sales_Model_Order */
+
+            $order->addStatusHistoryComment('Comentarios: ' . $oscOrderData['comments']);
+            $order->save();
+        }
+
         // subscribe to newsletter
         if (array_key_exists('is_subscribed', $oscOrderData) && $oscOrderData['is_subscribed']) {
             $customer = Mage::getSingleton('customer/session')->getCustomer();
