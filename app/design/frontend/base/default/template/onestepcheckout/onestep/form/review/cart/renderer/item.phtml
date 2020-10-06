@@ -12,7 +12,7 @@
 <?php endif;?>
 <td class="a-center lc-thumbnails">
 	<a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>">
-		<img src="<?php echo $this->getProductThumbnail()->resize(25,25); ?>" width="25" height="25" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" />
+		<img src="<?php echo $this->getProductThumbnail()->resize(70); ?>" width="70" height="70" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" />
 	</a>
 </td>					
 <td><h3 class="product-name"><?php echo $this->htmlEscape($this->getProductName()) ?></h3>
