@@ -739,24 +739,32 @@ class Inovarti_Onestepcheckout_AjaxController extends Mage_Checkout_Controller_A
         }
 
         $cep = preg_replace('/[^\d]/', '', $cep);
-        $endpoint = 'https://viacep.com.br/ws/' . $cep . '/json/';
-        $result = '';
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $endpoint);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close($ch);
+        $soapArgs = array(
+            'cep' => $cep,
+            'encoding' => 'UTF-8',
+            'exceptions' => 0
+        );
+        $return = '';
 
-        if (!empty($response)) {
-            $dados = json_decode($response, true);
+        try {
 
-            if (isset($json['erro'])) {
-                $return = "var resultadoCEP = { 'uf' : '', 'cidade' : '', 'bairro' : '', 'tipo_logradouro' : '', 'logradouro' : '', 'resultado' : '0', 'resultado_txt' : 'CEP não encontrado!' }";
-            } else {
-                $return = "var resultadoCEP = { 'uf' : '".addslashes($dados['uf'])."', 'cidade' : '".addslashes($dados['localidade'])."', 'bairro' : '".addslashes($dados['bairro'])."', 'tipo_logradouro' : '', 'logradouro' : '".$dados['logradouro']."', 'resultado' : '1', 'resultado_txt' : 'sucesso%20-%20cep%20completo' }";
+            $ch = curl_init("http://cep.republicavirtual.com.br/web_cep.php?cep={$cep}&formato=json");
+            curl_setopt_array($ch, array(
+                CURLOPT_RETURNTRANSFER => 1
+            ));
+            $ret = curl_exec($ch);
+
+            if (curl_errno($ch)) {
+                $return = "var resultadoCEP = { 'uf' : '', 'cidade' : '', 'bairro' : '', 'tipo_logradouro' : '', 'logradouro' : '', 'resultado' : '0', 'resultado_txt' : 'cep nao encontrado' }";
+            }else{
+//                $return = "var resultadoCEP = { 'uf' : '".$dados->uf."', 'cidade' : '".$dados->cidade."', 'bairro' : '".$dados->bairro."', 'tipo_logradouro' : '', 'logradouro' : '".$dados->end."', 'resultado' : '1', 'resultado_txt' : 'sucesso%20-%20cep%20completo' }";
+                $return = "var resultadoCEP = $ret";
             }
-        } else {
+
+        } catch (SoapFault $e) {
+            $return = "var resultadoCEP = { 'uf' : '', 'cidade' : '', 'bairro' : '', 'tipo_logradouro' : '', 'logradouro' : '', 'resultado' : '0', 'resultado_txt' : 'cep nao encontrado' }";
+        } catch (Exception $e) {
             $return = "var resultadoCEP = { 'uf' : '', 'cidade' : '', 'bairro' : '', 'tipo_logradouro' : '', 'logradouro' : '', 'resultado' : '0', 'resultado_txt' : 'cep nao encontrado' }";
         }
 
